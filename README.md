@@ -2,7 +2,7 @@
 
 ### Passo 1- Desenvolvimento de uma Aplicação TODO List
 
-A aplicação TODO List foi construída utilizando o framework Vue.JS, com a utilização da ferramente localstorage dos navegadores para simular a inserção, edição e exlusão de dados em banco de dados.
+A aplicação TODO List foi construída utilizando o framework Vue.JS, com a utilização da ferramenta localstorage dos navegadores para simular a inserção, edição e exlusão de dados em banco de dados.
 
 ### Passo 2 - Criação do Dockerfile e da Imagem
 
@@ -35,7 +35,6 @@ Podemos gerenciar o container
 `docker restart todolist`
 
 `docker rm todolist`
-
 
 ### Passo 3 - Publicação no Docker Hub
 
