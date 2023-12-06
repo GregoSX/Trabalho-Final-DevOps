@@ -50,6 +50,20 @@ Insira as credenciais do seu usuário do docker hub e execute os comandos abaixo
 
 ### Passo 4: Criação de Artefatos no Kubernetes com Helm
 
+Inicialize um cluster utilizando kind
+
+`kind create cluster`
+
+
+Crie uma estrutura básica de um chart Helm
+
+`helm create todolist`
+
+Dentro do diretório **templates** crie e defina os arquivos namespace.yaml,deployment.yaml, service.yaml, configmap.yaml, secrets.yaml e hpa.yaml.
+
+Para testar o funcionamento execute os comandos:
+
+`kubectl --namespace $NAMESPACE_NAME port-forward $POD_NAME 8080:$CONTAINER_PORT`
 
 ## Desenvolvedores
 
