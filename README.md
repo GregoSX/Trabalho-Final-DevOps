@@ -1,6 +1,10 @@
 # Trabalho Final DevOps
 
-### Passo 1 - Criar a imagem da aplicação todo list
+### Passo 1- Desenvolvimento de uma Aplicação TODO List
+
+A aplicação TODO List foi construída utilizando o framework Vue.JS, com a utilização da ferramente localstorage dos navegadores para simular a inserção, edição e exlusão de dados em banco de dados.
+
+### Passo 2 - Criação do Dockerfile e da Imagem
 
 Criar o arquivo Dockerfile.
 
@@ -33,12 +37,19 @@ Podemos gerenciar o container
 `docker rm todolist`
 
 
-### Passo 2 - Enviar a imagem para o docker hub
+### Passo 3 - Publicação no Docker Hub
 
-Antes de enviar a imagem para o docker hub é necessário realizar a autenticação
+Antes de publicar a imagem para o docker hub é necessário realizar a autenticação
 
 `Docker login`
 
+Insira as credenciais do seu usuário do docker hub e execute os comandos abaixo
+
+`docker tag todolist:v1 gregosx/todolist:v1`
+
+`docker push gregosx/todolist:v1`
+
+### Passo 4: Criação de Artefatos no Kubernetes com Helm
 
 
 ## Desenvolvedores
