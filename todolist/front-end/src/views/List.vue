@@ -8,16 +8,16 @@
     </template>
     <template v-else>
       <div v-for="(task, index) in tasks" :key="index">
-        <b-card :title="task.subject" class="mb-2">
+        <b-card :title="task.title" class="mb-2">
           <b-card-text> {{ task.description }} </b-card-text>
-          <b-button variant="outline-secondary" class="mr-2" @click="edit(index)"> Editar </b-button>
-          <b-button variant="outline-danger" class="mr-2" @click="remove(task, index)"> Excluir </b-button>
+          <b-button variant="outline-secondary" class="mr-2" @click="edit(task.id)"> Editar </b-button>
+          <b-button variant="outline-danger" class="mr-2" @click="remove(task)"> Excluir </b-button>
         </b-card>
       </div>
     </template> 
     <b-modal ref="modalRemove" hide-footer title="Exclusão de tarefa">
       <div class="d-block text-center">
-        Deseja realmente excluir a tarefa "{{ taskSelected.subject }}" ? 
+        Deseja realmente excluir a tarefa "{{ taskSelected.title }}" ? 
       </div>
       <div class="mt-3 d-flex justify-content-end">
         <b-button variant="outline-secondary" class="mr-2" @click="hideModal()" > Cancelar </b-button>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import { GetTasks, DeleteTask } from '@/services/Tasks'
   import toatMixin from '@/mixins/toatMixin.js'
 
   export default {
@@ -40,25 +41,34 @@
       }
     },
     created() {
-      this.tasks = (localStorage.getItem("tasks")) ? JSON.parse(localStorage.getItem("tasks")) : []
+      GetTasks()
+        .then((response) => {
+          this.tasks = response.data
+        })
+        .catch(() => {
+          this.showToast("danger", "Erro!", "Erro ao buscar tarefas!")
+        })
     },
     methods: {
-      edit(index) {
-        this.$router.push({ name: "form", params: { index } })
+      edit(id) {
+        this.$router.push({ name: "form", params: { id } })
       },
-      remove(task, index) {
+      remove(task) {
         this.taskSelected = task
-        this.taskSelected.index = index
         this.$refs.modalRemove.show()
       },
       hideModal() {
         this.$refs.modalRemove.hide()
       },
       confirmRemoveTask() {
-        this.tasks.splice(this.taskSelected.index, 1)
-        localStorage.setItem("tasks", JSON.stringify(this.tasks))
+        DeleteTask(this.taskSelected.id)
+          .then(() => {
+            this.showToast("success", "Sucesso!", "Tarefa excluída com sucesso!")
+          }).catch(() => {
+            this.showToast("danger", "Erro!", "Erro ao excluir tarefa!")
+          })
         this.hideModal()
-        this.showToast("success", "Sucesso!", "Tarefa excluída com sucesso!")
+        this.$router.go()
       }
     },
     computed: {

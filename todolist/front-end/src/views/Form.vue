@@ -3,20 +3,20 @@
     <b-form>
       <b-form-group
         label="Titulo"
-        label-for="subject"
+        label-for="title"
       >
         <b-form-input
-          id="subject"
-          v-model.trim="$v.form.subject.$model"
+          id="title"
+          v-model.trim="$v.form.title.$model"
           type="text"
           placeholder="Ex: lavar carro"
           required
           autocomplete="off"
           :state="getValidation"
-          aria-describedby="subject-feedback"
+          aria-describedby="title-feedback"
         >
         </b-form-input>
-        <b-form-invalid-feedback id="subject-feedback">Campo obrigatório</b-form-invalid-feedback>
+        <b-form-invalid-feedback id="title-feedback">Campo obrigatório</b-form-invalid-feedback>
       </b-form-group>
       <b-form-group
         label="Descrição"
@@ -33,12 +33,13 @@
         </b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="outline-primary" @click="saveTask" :disabled="!getValidation"> Salvar </b-button>
+      <b-button type="submit" variant="outline-primary" @click.prevent="saveTask" :disabled="!getValidation"> Salvar </b-button>
     </b-form>
   </div>
 </template>
 
 <script>
+  import { GetTask, CreateTask, UpdateTask  } from '@/services/Tasks'
   import toatMixin from '@/mixins/toatMixin.js'
   import { required, minLength } from 'vuelidate/lib/validators'
 
@@ -48,7 +49,7 @@
     data() {
       return {
         form: {
-          subject: "",
+          title: "",
           description: ""
         },
         methodSave: "new"
@@ -56,43 +57,55 @@
     },
     validations: {
       form: {
-        subject: {
+        title: {
           required,
           minLength: minLength(2)
         }
       }
     },
     created() {
-      if(this.$route.params.index === 0 || this.$route.params.index !== undefined) {
+      if(this.$route.params.id === 0 || this.$route.params.id !== undefined) {
         this.methodSave = "update"
-        let tasks = JSON.parse(localStorage.getItem("tasks"))
-        this.form = tasks[this.$route.params.index]
+        GetTask(this.$route.params.id)
+          .then((response) => {
+            this.form = response.data
+          })
+          .catch(() => {
+            this.showToast("danger", "Erro!", "Erro ao buscar tarefa!")
+          })
       }
     },
     methods: {
       saveTask() {
         if(this.methodSave === "update") {
-          var tasks = JSON.parse(localStorage.getItem("tasks"))
-          tasks[this.$route.params.index] = this.form
-          this.showToast("success", "Sucesso!", "Tarefa atualizada com sucesso!")
+          UpdateTask(this.form.id, this.form)
+            .then(() => {
+              this.showToast("success", "Sucesso!", "Tarefa atualizada com sucesso!")
+              this.$router.push("/");
+            })
+            .catch(() => {
+              this.showToast("danger", "Erro!", "Erro ao atualizar tarefa!")
+            })
         }
         else {
-          var tasks = (localStorage.getItem("tasks")) ? JSON.parse(localStorage.getItem("tasks")) : []
-          tasks.push(this.form)
-          this.showToast("success", "Sucesso!", "Tarefa criada com sucesso!")
+          CreateTask(this.form)
+            .then(() => {
+              this.showToast("success", "Sucesso!", "Tarefa criada com sucesso!")
+              this.$router.push("/");
+            })
+            .catch(() => {
+              this.showToast("danger", "Erro!", "Erro ao criar tarefa!")
+            })
 
         }
-
-        localStorage.setItem("tasks", JSON.stringify(tasks))
-        this.$router.push({ name: "list" })
       }
     },
     computed: {
       getValidation() {
-        if(this.$v.form.subject.$dirty === false) {
+        if(this.$v.form.title.$dirty === false) {
           return null
         }
-        return !this.$v.form.subject.$error
+        return !this.$v.form.title.$error
       }
     }
   }
