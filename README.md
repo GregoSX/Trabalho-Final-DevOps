@@ -18,7 +18,7 @@ Verificar a construação da imagem
 
 Execute a imagem em um container para verificar a aplicação
 
-`docker run -d -p 8080:80 --name todolist todolist:v1`
+`docker run -d -p 8080:8080 --name todolist todolist:v1`
 
 Verifique a aplicação no host com:
 
