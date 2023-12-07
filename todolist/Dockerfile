@@ -16,7 +16,7 @@ COPY back-end/ ./back-end/
 RUN cd front-end && npm install
 
 # Instale as dependências do back-end
-RUN cd back-end && yarn install
+RUN cd back-end && yarn install && yarn migrate:dev --name init && yarn migrate:run
 
 # Expor as portas utilizadas pelo front-end e back-end
 EXPOSE 8080
