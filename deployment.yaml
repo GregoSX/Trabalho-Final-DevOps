@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-todolist
+  namespace: devops
+  labels:
+    app: deploy-todolist
+spec:
+  selector:
+    matchLabels:
+      app: deploy-todolist
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: deploy-todolist
+    spec:
+      containers:
+        - name: deploy-todolist
+          image: victoroliveira7/todolist:v1
+          envFrom:
+            - configMapRef:
+                name: my-configmap
+            - secretRef:
+                name: my-secret
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8080
+              name: deploy-todolist

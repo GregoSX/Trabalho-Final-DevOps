@@ -7,9 +7,7 @@ import { router } from '@/routes';
 const app = express();
 app.disable('x-powered-by');
 
-// Use the port in process.env.PORT if available
-// otherwise use 3000
-const port = process.env.PORT ?? 3000;
+const port = 8080;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,7 +17,9 @@ app.use(router);
 
 // Rota para a raiz
 app.get('/', (req, res) => {
-  res.send('Hello, this is the root endpoint!');
+  const nome = process.env.NOME ?? 'vsftmj';
+  const password = process.env.PASSWORD ?? 'password';
+  res.send(`Hello ${nome}! Your password is ${password}`);
 });
 
 app.listen(port, () => {
