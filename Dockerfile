@@ -11,7 +11,7 @@ COPY todolist/package*.json ./
 RUN npm install
 
 # Copy all local files to the image
-COPY todolist/ .
+COPY todolist/front-end .
 
 # Build the Vue app
 RUN npm run build
