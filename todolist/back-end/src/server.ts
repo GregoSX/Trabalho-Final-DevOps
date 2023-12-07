@@ -17,6 +17,11 @@ app.use(cors());
 
 app.use(router);
 
+// Rota para a raiz
+app.get('/', (req, res) => {
+  res.send('Hello, this is the root endpoint!');
+});
+
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port} 🚀`);
 });
