@@ -39,12 +39,12 @@ Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo
 
 3. Primeiramente, crie os arquivos `.yaml` necessários para subir a aplicação com Kubernetes:
 
-    - namespace
-    - deployment
-    - service
-    - configmap
-    - secrets
-    - hpa
+    - [namespace](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/namespace.yaml)
+    - [deployment](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/deployment.yaml)
+    - [service](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/service.yaml)
+    - [configmap](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/configmap.yaml)
+    - [secrets](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/secrets.yaml)
+    - [hpa](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/hpa.yaml)
 
 4. Após todos estarem configurados, é necessário implementar uma aplicação do Helm com o seguinte comando:
 
