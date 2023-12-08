@@ -41,16 +41,16 @@ Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo
 
     - [namespace](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/namespace.yaml)
     - [deployment](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/deployment.yaml)
-    - [service](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/service.yaml)
-    - [configmap](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/configmap.yaml)
-    - [secrets](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/secrets.yaml)
+    - [service](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/services.yaml)
+    - [configmap](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/config.yaml)
+    - [secrets](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/secret.yaml)
     - [hpa](https://raw.githubusercontent.com/GregoSX/Trabalho-Final-Devops/main/hpa.yaml)
 
 4. Após todos estarem configurados, é necessário implementar uma aplicação do Helm com o seguinte comando:
 
         helm create meu-app
 
-5. Dentro do diretório `meu-app`, é necessário modificar o arquivo `Values.yaml`, alterando a imagem, a tag e a porta que estão sendo usadas. Além disso, copie os arquivos `config.yaml` e `secrets.yaml` para dentro da pasta `templates`. Após copiar, adicione dentro do `deployment.yaml` da pasta `templates` o `env` para conseguir utilizar os valores da config e secrets.
+5. Dentro do diretório `meu-app`, é necessário modificar o arquivo `Values.yaml`, alterando a imagem, a tag e a porta que estão sendo usadas. Além disso, copie os arquivos `config.yaml` e `secret.yaml` para dentro da pasta `templates`. Após copiar, adicione dentro do `deployment.yaml` da pasta `templates` o `env` para conseguir utilizar os valores da config e secrets.
 
 6. Por fim, é necessário criar o namespace. Para isso, estando no diretório onde o arquivo está, execute o comando:
 
