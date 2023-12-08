@@ -84,5 +84,5 @@ Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo
 
 Este projeto foi desenvolvido por:
 
- - Guilherme Grego Santos
- - Victor Hugo Xavier Oliveira
+ - [Guilherme Grego Santos](https://github.com/GregoSX)
+ - [Victor Hugo Xavier Oliveira](https://github.com/victorhxo)
