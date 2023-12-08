@@ -10,7 +10,7 @@ A API foi implementada utilizando TypeScript, Express, Prisma e SQLite. Foram cr
 
 2. Para subir o backend em um container, execute o comando abaixo dentro da pasta `api-todolist`:
 
-        docker build -t seu_nome_usuario/todolist:v1 .
+        docker build -t seu_nome_usuario/app-todolist:v1 .
    
 
 4. Verificar a construção da imagem:
@@ -27,7 +27,7 @@ Antes de publicar a imagem para o Docker Hub, é necessário realizar a autentic
 
 Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo:
 
-    docker push seu_nome_usuario/todolist:v1
+    docker push seu_nome_usuario/app-todolist:v1
 
 
 ## Passo 4: Criação de Artefatos no Kubernetes com Helm
@@ -50,7 +50,7 @@ Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo
 
         helm create meu-app
 
-5. Dentro do diretório `meu-app`, é necessário modificar o arquivo `Values.yaml`, alterando a imagem, a tag e a porta que estão sendo usadas. Além disso, copie os arquivos `config.yaml` e `secret.yaml` para dentro da pasta `templates`. Após copiar, adicione dentro do `deployment.yaml` da pasta `templates` o `env` para conseguir utilizar os valores da config e secrets.
+5. Dentro do diretório `meu-app`, é necessário modificar o arquivo `values.yaml`, alterando a imagem, a tag e a porta que estão sendo usadas. Além disso, copie os arquivos `config.yaml` e `secret.yaml` para dentro da pasta `templates`. Após copiar, adicione dentro do `deployment.yaml` da pasta `templates` o `env` para conseguir utilizar os valores da config e secrets.
 
 6. Por fim, é necessário criar o namespace. Para isso, estando no diretório onde o arquivo está, execute o comando:
 
@@ -59,8 +59,25 @@ Insira as credenciais do seu usuário do Docker Hub e execute os comandos abaixo
 
 7. Depois de todos os passos acima, utilize o comando abaixo dentro da pasta que o Helm criou:
 
-       helm install todolist . --namespace devops
+       helm install app-todolist . --namespace devops
+
+8. Ao executar irá aparecer uma mensagem com as instruções para realizar o port-forward da aplicação:
+
+   ```
+   export POD_NAME=$(kubectl get pods --namespace devops -l "app.kubernetes.io/name=meu-app,app.kubernetes.io/instance=app-todolist" -o jsonpath="{.items[0].metadata.name}")
+   ```
+   
+   ```
+   export CONTAINER_PORT=$(kubectl get pod --namespace devops $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+   ```
+   
+   ```
+   kubectl --namespace devops port-forward $POD_NAME 8080:$CONTAINER_PORT
+   ```
+   
+10. Com isso sua aplicação esta rodando no link:
     
+        http://127.0.0.1:8080
 
 
 ## Desenvolvedores
